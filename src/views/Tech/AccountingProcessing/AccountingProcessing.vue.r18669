@@ -1,0 +1,372 @@
+<!--核算处理-->
+<template>
+  <!-- 总-->
+  <div class="tech_customedemand_index">
+    <!-- 工资合计 分配  预警 -->
+    <TotalWages></TotalWages>
+    <el-row :gutter="20">
+      <el-col :span="18">
+        <div class="grid-content ep-bg-purple mt-5">
+          <div>
+            <!-- 表格等 -->
+            <el-tabs type="border-card" class="tech_customedemand_tabs" @tab-change="tabChange">
+              <el-tab-pane label="全部"></el-tab-pane>
+              <el-tab-pane label="阀体"></el-tab-pane>
+              <el-tab-pane label="配件"></el-tab-pane>
+              <div class="absolute right-4 -top-9">
+                <el-radio-group v-model="form.State" @change="allWait()" size="small">
+                  <el-radio-button :label="2">全部</el-radio-button>
+                  <el-radio-button :label="0">未处理</el-radio-button>
+                  <el-radio-button :label="1">已处理</el-radio-button>
+                </el-radio-group>
+              </div>
+              <div class="clearfix">
+                <div class="float-left">
+                  <div class="inline-block float-left">
+                    <i class="iconfont icon-shaixuan mr-2"></i>
+                    <span class="text-xs">当前筛选</span>
+                  </div>
+                  <div class="inline-block w-400">
+                    <el-tag v-for="(item, index) in data.ProductNameTag" :key="index" class="mx-1" closable effect="plain" type="info" @close="handClose(index, item)">
+                      {{ item }}
+                    </el-tag>
+                    <el-tag v-for="(item, index) in data.ModelTag" :key="index" class="mx-1" closable effect="plain" type="info" @close="handClose(index, item)">
+                      {{ item }}
+                    </el-tag>
+                    <el-tag v-for="(item, index) in data.SpecificationsTag" :key="index" class="mx-1" closable effect="plain" type="info" @close="handClose(index, item)">
+                      {{ item }}
+                    </el-tag>
+                    <el-tag v-for="(item, index) in data.MaterialTag" :key="index" class="mx-1" closable effect="plain" type="info" @close="handClose(index, item)">
+                      {{ item }}
+                    </el-tag>
+                    <el-tag v-for="(item, index) in data.GroupIdTag" :key="index" class="mx-1" closable effect="plain" type="info" @close="handClose(index, item)">
+                      {{ item }}
+                    </el-tag>
+                  </div>
+                </div>
+                <div class="float-right">
+                  <el-button type="info"><i class="iconfont icon-canshu mr-2"></i> 系统处理</el-button>
+                  <el-button type="success" :disabled="data.single" @click="openWindowSupplierLibrary(form.EnquiryDataId, data.selectDetails, 0)"><i class="iconfont icon-xueyuan mr-2"></i>分配厂商</el-button>
+                  <el-button type="danger" :disabled="data.single" @click="openWindowOrderPriceComparison('', data.selectDetail)"><i class="iconfont icon-jiage mr-2"></i>批量比价</el-button>
+                  <el-button type="warning" @click="AddAudit"><i class="iconfont icon-dingdan9 mr-2"></i>转入审核</el-button>
+                </div>
+              </div>
+              <div class="">
+                <!-- stripe -->
+                <div class="bf-table-content">
+                  <div class="absolute w-460 h-10 z-50 right-60 flex items-center">
+                    <div class="inline-block bg-white pl-2 border rounded">
+                      <el-checkbox-group v-model="data.checkList" :disabled="data.single"  >
+                        <el-checkbox v-for="item in data.imGroupUserList" :key="item.label" :label="item.value" :value="item.value" @change="(type)=>{checkChange(type, item.label)}"/>
+                      </el-checkbox-group>
+                    </div>
+                    <div class="inline-block">
+                      <el-select v-model="form.actionsValue" class="m-2 w-32" placeholder="更多操作">
+                        <el-option v-for="item in data.options" :key="item.label" :label="item.label" :value="item.value" />
+                      </el-select>
+                    </div>
+                  </div>
+                  <el-table :data="data.tableData" stripe @selection-change="handleSelectionChange" border>
+                    <el-table-column type="selection" width="50" align="center" />
+                    <el-table-column type="index" label="序号" width="54" align="center" />
+                    <el-table-column prop="CreateOn" label="产品描述">
+                      <template #default="scope">
+                        <div>
+                          <span class="font-semibold mr-3">{{ scope.row.SystemName }}</span>
+                          <span class="font-semibold mr-3">{{ scope.row.SystemModel }}</span>
+                          <span class="font-semibold">{{ scope.row.SystemSpecification }}</span>
+                          <el-tag class="float-right" effect="plain" size="small">{{ scope.row.ProductTypeName }}</el-tag>
+                          <el-divider />
+                          <span>【{{ scope.row.QualityLevel == 1 ? '一级' : scope.row.QualityLevel == 2 ? '二级' : scope.row.QualityLevel == 3 ? '三级' : '--'}}】【压力：{{ scope.row.Pressure }}】</span>
+                          <el-tag class="ml-2" type="warning" effect="dark" size="small" v-if="scope.row.IsHugeCount">数量高</el-tag>
+                          <el-tag class="ml-2" effect="dark" size="small" v-if="scope.row.IsHugePrice">金额大</el-tag>
+                          <el-tag class="ml-2" type="danger" effect="dark" size="small" v-if="scope.row.IsHugeRange">周期长</el-tag>
+                          <el-tag class="ml-2" type="success" effect="dark" size="small" v-if="scope.row.IsHugeCost">成本高</el-tag>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="Quantity" label="数量" align="center" sortable width="100">
+                      <template #default="scope">
+                        <div>
+                          <span>{{ scope.row.Quantity }}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="CreateOn" label="分组" align="center" width="120">
+                      <template #default="scope">
+                        <div class="cursor-pointer" v-if="scope.row.SupplierGroup" @click="openWindowOrderPriceComparison(scope.row.SupplierGroup, '')">
+                          <span class="text-blue-500">{{ scope.row.SupplierGroup || '-' }}</span>
+                        </div>
+                        <div class="" v-else>
+                          <span class="">-</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </div>
+              </div>
+            </el-tabs>
+          </div>
+        </div>
+      </el-col>
+      <el-col :span="6" v-show="!getSetting.showLayoutRight">
+        <!-- 右侧 -->
+        <CustomeDemandRight></CustomeDemandRight>
+      </el-col>
+    </el-row>
+    <!--  分配厂商 (供应商库 )-->
+    <div v-if="supplierLibraryOpenData.visible">
+      <SupplierLibrary title="供应商库" v-if="supplierLibraryOpenData.visible" :FormData="supplierLibraryOpenData.formData" @closeWindow="closeWindowSupplierLibrary($event)" />
+    </div>
+    
+    <!-- 批量比价 -->
+    <OrderPriceComparison title="订单比价" v-if="orderPriceComparisonOpenData.visible" :FormData="orderPriceComparisonOpenData.formData" @closeWindow="closeWindowOrderPriceComparison($event)" :EnquiryDataId="form.EnquiryDataId" />
+    
+  </div>
+</template>
+<script lang="ts">
+import { defineComponent, onMounted, reactive, provide, ref } from 'vue'
+import { ElMessage } from 'element-plus'
+import { useCommonStore } from '/@/store/modules/Common'
+import TotalWages from './_Components/TotalWages.vue'
+import CustomeDemandRight from './_Components/AccountingAnalysisRight.vue'
+import filterDatetime from '../Inquiry/_Components/filterDatetime.vue'
+import TableSearch from '/@/components/TableSearch/index.vue'
+import { PostProductBusinessList, GetSetEnquiryOrderAccounterAuditSave } from '/@/api/tech/EnquiryData'
+import { supplierLibraryOpen, orderPriceComparisonOpen } from '/@/assets/ts/techOpenWindow'
+import SupplierLibrary from './_Components/SupplierLibrary.vue'
+import OrderPriceComparison from './_Components/OrderPriceComparison.vue'
+import { useLayoutStore } from '/@/store/modules/layout'
+import { useTechStore } from '/@/store/modules/techStore'
+
+// 列表数据请求
+const renderTableList = async (form: any, data: any) => {
+  await PostProductBusinessList(form).then((res) => {
+    if (res.code == 1) {
+      data.tableData = res.data
+    }
+  })
+}
+
+// 筛选
+const tableRender = (form: any, data: any) => {
+  // table选择监听
+  const handleSelectionChange = (val: any) => {
+    data.selectDetails = val
+    data.selectDetail = val.map((x: any) => {
+      return x.Id
+    })
+    if (val.length <= 0) {
+      data.single = true
+    } else {
+      data.single = false
+    }
+  }
+  return {
+    handleSelectionChange
+  }
+}
+
+const store = useCommonStore() //记得加这一句
+
+export default defineComponent({
+  name: 'TechCustomerDemand',
+  components: {
+    TotalWages,
+    CustomeDemandRight,
+    filterDatetime,
+    TableSearch,
+    SupplierLibrary,
+    OrderPriceComparison
+  },
+  setup() {
+    const storeTech = useTechStore() //记得加这一句
+    const { getSetting } = useLayoutStore()
+    // 筛选数据
+    const form = reactive({
+      State: 2, //全部
+      EnquiryDataId: 0,
+      ProductType: 0, //产品分类
+      ProductName: [], //产品名称
+      GroupId: '', //产品分组
+      Material: [], //产品材质
+      Specifications: [], //产品规格
+      Model: [],
+      actionsValue: '' // 更多操作
+    })
+    const data = <any>reactive({
+      imGroupUserList: [
+        { value: '数量高', label: 'IsHugeCount' },
+        { value: '金额大', label: 'IsHugePrice' },
+        { value: '周期长', label: 'IsHugeRange' },
+        { value: '成本高', label: 'IsHugeCost' }
+      ],
+      checkList: [],
+      CurrEnquiryId: 0,
+      options: [
+        {
+          value: '未分配',
+          label: '未分配'
+        },
+        {
+          value: '已分配',
+          label: '已分配'
+        },
+        {
+          value: '单分配',
+          label: '单分配'
+        },
+        {
+          value: '多分配',
+          label: '多分配'
+        },
+        {
+          value: '全部',
+          label: '全部'
+        }
+      ],
+      // 表格数据
+      tableData: [],
+      number: 0,
+      Suggestion: {},
+      selectTable: [],
+      single: true,
+      ProductNameTag: [],
+      ModelTag: [],
+      SpecificationsTag: [],
+      MaterialTag: [],
+      GroupIdTag: [],
+      selectDetails: [],
+      selectDetail: []
+    })
+    // 关闭任意一个tags
+    const handClose = (index: any, item: any) => {
+      data.ProductNameTag.splice(data.ProductNameTag.indexOf(item), 1)
+
+      data.ModelTag.splice(data.ModelTag.indexOf(item), 1)
+
+      data.SpecificationsTag.splice(data.SpecificationsTag.indexOf(item), 1)
+
+      data.MaterialTag.splice(data.MaterialTag.indexOf(item), 1)
+
+      data.GroupIdTag.splice(data.GroupIdTag.indexOf(item), 1)
+    }
+    const tabChange = (ev: any) => {
+      form.ProductType = parseInt(ev) || 0
+      renderTableList(form, data)
+    }
+    // 全部待审核已审核切换
+    const allWait = () => {
+      renderTableList(form, data)
+    }
+    //订阅状态
+    storeTech.$subscribe((mutation:any, state: any) => {
+      if (state.TechCurrEnquiryId != form.EnquiryDataId) {
+        // 清空接口传参
+        form.ProductName = []
+        form.GroupId = ''
+        form.Material = []
+        form.Specifications = []
+        form.Model = []
+        // 清空顶部选择条
+        data.ProductNameTag = []
+        data.ModelTag = []
+        data.GroupIdTag = []
+        data.MaterialTag = []
+        data.SpecificationsTag = []
+        // 清空store里Account的值
+        storeTech.setAccount()
+        form.EnquiryDataId = state.TechCurrEnquiryId
+        renderTableList(form, data)
+      } else {
+        if (state.TechCurrEnquiryId != form.EnquiryDataId || state.Account != form) {
+          form.EnquiryDataId = state.TechCurrEnquiryId
+          
+          // 接口传参赋值
+          form.ProductName = state.Account.Name || []
+          form.GroupId = state.Account.Grouping.join(',') || ''
+          form.Material = state.Account.Materials || []
+          form.Specifications = state.Account.Specifications || []
+          form.Model = state.Account.Model || []
+
+          // 给顶部选择复制
+          data.ProductNameTag = state.Account.Name
+          data.ModelTag = state.Account.Model
+          data.GroupIdTag = state.Account.Grouping
+          data.MaterialTag = state.Account.Materials
+          data.SpecificationsTag = state.Account.Specifications
+          
+          renderTableList(form, data)
+        }
+      }
+    })
+    //获取数据
+    const getData = () => {
+      renderTableList(form, data)
+    }
+    // 选择数量高、金额大等
+    const checkChange = (value: boolean, lable: any) => {
+      for(let i in data.selectDetail) {
+        data.tableData[i][lable] = value ? 1 : value
+      }
+      let subInfo = {
+        Id: data.selectDetail,
+        state: value ? 1 : value,
+        IsHugeRange: lable
+      }
+      console.log(subInfo)
+    }
+
+    // 转入审核
+    const AddAudit = async () => {
+      await GetSetEnquiryOrderAccounterAuditSave(form.EnquiryDataId).then(res => {
+        res.code == 1 ? ElMessage.success(res.message) : ElMessage.error(res.message)
+        if(res.code == 1)
+        renderTableList(form, data)
+      })
+    }
+
+    onMounted(() => {
+      // 根据Id获取详情
+      store.getDict('hr_Innovate_status').then((res: any) => {
+        data.Suggestion = res
+      })
+
+      form.EnquiryDataId = storeTech.getTechCurrEnquiryId
+    })
+    return {
+      form,
+      data,
+      AddAudit,
+      handClose,
+      allWait,
+      ...tableRender(form, data),
+      ...supplierLibraryOpen(form, data, getData),
+      ...orderPriceComparisonOpen( data, getData ),
+      tabChange,
+      getSetting,
+      checkChange
+    }
+  }
+})
+</script>
+
+<style lang="postcss" scoped>
+.tech_customedemand_index {
+  .active {
+    color: #ffffff;
+    background: #409eff;
+  }
+  :deep(.el-checkbox) {
+    margin-right: 12px;
+  }
+  :deep(.tech_customedemand_tabs) {
+    .el-tabs__content {
+      overflow: initial;
+    }
+  }
+  :deep(.el-divider--horizontal) {
+    margin: 8px 0;
+  }
+}
+</style>

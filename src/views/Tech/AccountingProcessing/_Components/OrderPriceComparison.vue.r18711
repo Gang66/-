@@ -1,0 +1,493 @@
+<template>
+  <OpenWindow :boxStyle="boxStyle" :isShow="true" @closeWindow="closeWindow('close')">
+    <!-- #region -->
+    <div class="p-4">
+      <div class="clearfix">
+        <div class="float-left">
+          <el-button type="primary" size="large" @click="openWindowSupplierLibrary(EnquiryDataId, data.selectDetails, 1)"> <i class="iconfont icon-jiage mr-2"></i> 选择供应商</el-button>
+        </div>
+        <div class="float-right"><span class="text-sm text-gray-400">温馨提醒：最多支持5家供应商对比价格，请控制好数量！</span></div>
+      </div>
+      <!-- stripe -->
+      <div class="bf-table-content">
+        <el-table :data="data.Product" stripe @selection-change="handleSelectionChange" border>
+          <el-table-column type="selection" width="50" align="center" />
+          <el-table-column type="index" label="序号" width="54" align="center" />
+          <el-table-column prop="CreateOn" min-width="240">
+            <template #header>
+              <span class="text-xs text-white">产品参数 </span><i class="iconfont icon-name"></i>
+              <div class="absolute h-10 z-50 right-5 top-2 text-xs">
+                <span class="mr-3 cursor-pointer" @click="data.parameter = !data.parameter">{{ data.parameter ? '隐藏' : '展示' }}参数</span><span class="text-yellow-500 cursor-pointer" @click="copyText()">复制</span>
+              </div>
+            </template>
+
+            <template #default="scope">
+              <div class="flex items-center justify-between" v-if="scope.row.Product">
+                <div>
+                  <span class="font-semibold text-xs" v-show="data.parameter">{{ scope.row.Product.SystemName }} {{ scope.row.Product.SystemModel }}{{  scope.row.Product.SystemSpecification }}</span>
+                  <p class="text-xs text-blue-500" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;min-width: 220px">
+                    <span class="text-red-500" >【{{ scope.row.Product.QualityLevel == 1 ? '一级' : scope.row.Product.QualityLevel == 2 ? '二级' : scope.row.Product.QualityLevel == 3 ? '三级' : '--'}}】【压力：{{ scope.row.Pressure }}】</span> <span class="text-blue-500">【{{  scope.row.Product.Materials }}，380V普通开关型】</span>【压力：{{  scope.row.Product.Pressure }}】【材质：{{ scope.row.Product.Materials }}】
+                  </p>
+                </div>
+                <el-tag class="" effect="plain" size="small">{{ scope.row.Product.ProductTypeName || '阀体' }}</el-tag>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="CreateOn" label="数量" align="center" width="60">
+            <template #default="scope">
+              <div v-if="scope.row.Product">
+                <span>{{ scope.row.Product.Quantity }}</span>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="CreateOn" label="历史" align="center" width="60">
+            <template #default="scope">
+              <div @click="data.priceComparison = true">
+                <span class="text-blue-500 cursor-pointer">7</span>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="CreateOn" align="center" width="130" v-for="(item, index) in getSupplierList">
+            <template #header>
+              <el-tooltip class="box-item" effect="dark" content="Bottom Right prompts info" placement="bottom-end" v-if="item.Supplierinfo">
+                <span class="text-xs text-white">{{ (item.Supplierinfo.Abbreviation) || '' }} </span><i class="iconfont icon-name"></i>
+                <template #content>
+                  <div class="p-2">
+                    <span><i class="iconfont icon-xueyuan"></i> {{ (item.Supplierinfo.CompanyName) || '' }}</span>
+                    <span class="text-xs text-yellow-500 float-right ml-16 pt-1 cursor-pointer" @click="deleteLibrarySubmit(item, index)">移除</span>
+                    <p class="text-xs mt-2" v-if="item.User">联系人：{{ (item.User.Name) || '' }} ( {{ (item.User.MobilePhone) || '' }} )</p>
+                    <p class="text-xs mt-2">主营：{{ (item.Supplierinfo.MainProduct) || '-' }}</p>
+                  </div>
+                </template>
+              </el-tooltip>
+            </template>
+            <template #default="scope">
+              <div class="text-center" v-if="scope.row.Supplier">
+                <div class="h-9">
+                  <div class="w-20 money-input" v-if="scope.row.Supplier[index].isFocus">
+                    <el-input
+                      type="number"
+                      placeholder="金额"
+                      @change="changePrice"
+                      v-model="scope.row.Supplier[index].Price.Price"
+                      @blur="scope.row.Supplier[index].isFocus=false"
+                      v-focus
+                    />
+                    <div class="w-20 h-px bg-blue-400 absolute money-line"></div>
+                  </div>
+                  <p
+                    class="leading-9"
+                    @click="scope.row.Supplier[index].isFocus=true"
+                    v-else
+                  >
+                    {{ scope.row.Supplier[index].Price.Price || 0 }}
+                  </p>
+                </div>
+                <p class="text-xs text-blue-500 cursor-pointer" @click="openWindowSupplierSpecialAttributes()">备注</p>
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+
+      <div class="float-right pt-2 pb-4">
+        <el-button @click="closeWindow('close')">取消</el-button>
+        <el-button type="primary" @click="submit">确认提交</el-button>
+      </div>
+      <!-- 供应商特殊属性 -->
+      <SupplierSpecialAttributes title="供应商特殊属性" v-if="supplierSpecialAttributesOpenData.visible" :FormData="supplierSpecialAttributesOpenData.formData" @closeWindow="closeWindowSupplierSpecialAttributes($event)" />
+      <!-- 供应商库 -->
+      <SupplierLibrary
+        title="供应商库"
+        v-if="supplierLibraryOpenData.visible"
+        :FormData="supplierLibraryOpenData.formData"
+        @closeWindow="closeWindowSupplierLibrary($event)"
+        @supplierLibrarySubmit="supplierLibrarySubmit"
+        :SupplierList="getSupplierList"
+      />
+      <!-- 标准比价 -->
+      <StandardPriceComparison v-model="data.priceComparison" />
+    </div>
+    <transition name="el-zoom-in-top">
+      <el-card class="absolute top-0 right-0 z-10 text-sm" v-if="isRestoreShow">
+        <div class="mb-2">上次编辑未完成是否还原？</div>
+        <div class="flex justify-center">
+          <el-button type="primary" size="small" class="mr-2" @click="showStore">确认</el-button>
+          <el-button type="warning" size="small" @click="cleanOneStore">取消</el-button>
+        </div>
+      </el-card>
+    </transition>
+    <!-- #endregion -->
+  </OpenWindow>
+</template>
+
+<script lang="ts">
+import OpenWindow from '/@/components/OpenWindow/index.vue'
+import { defineComponent, onMounted, reactive, ref, SetupContext,computed } from 'vue'
+import { ElMessage } from 'element-plus'
+import TableSearch from '/@/components/TableSearch/index.vue'
+import { PostAccounterBatchComparePricesListPage, PostInsertEditProductPriceSave } from '/@/api/tech/EnquiryData'
+import SupplierSpecialAttributes from './SupplierSpecialAttributes.vue'
+import SupplierLibrary from './SupplierLibrary.vue'
+import { supplierLibraryOpen } from '/@/assets/ts/techOpenWindow'
+import StandardPriceComparison from './StandardPriceComparison.vue'
+import { copyDomText } from '/@/utils/tools'
+
+// 列表数据请求
+const renderTableList = async (form: any, data: any) => {
+  await PostAccounterBatchComparePricesListPage(form).then((res) => {
+    // return
+    if (res.code == 1) {
+      let selectDetails = <any>[]
+      let nowProduct = <any> res.data.records
+
+      nowProduct.forEach(function (item: any) {
+        selectDetails.push(item.Product.Id)  // 获取全部产品id
+        // 解决返回值中Price对象为null的情况
+        item.Supplier.forEach((e:any, i:any) => {
+          if (e.Price == null) {
+            e.Price = { Price: 0}
+          }
+          e.isFocus=false
+        })
+      })
+      data.Product = JSON.parse(JSON.stringify(nowProduct))
+      console.log(data.Product)
+      data.selectDetails = selectDetails
+    }
+  })
+}
+
+// 筛选
+const tableRender = (data: any) => {
+  const handleSelectionChange = (val: any) => {
+    data.parityRatioList = val
+  }
+
+  return {
+    handleSelectionChange
+  }
+}
+
+// 缓存未保存信息
+const cacheMessage = () => {
+  // 增加缓存
+  const setCache = (props: any, data: any, isSet: boolean) => {
+    if (isSet) {
+      let AccounterBatchList = <any>localStorage.getItem('AccounterBatchList') || ''
+      let storage = <any>AccounterBatchList ? JSON.parse(AccounterBatchList) : {}
+      let CurrEnquiryId = <any>props.FormData.GroupId || props.FormData.Ids
+      storage[CurrEnquiryId] = {
+        Product: data.Product
+      }
+      localStorage.setItem('AccounterBatchList', JSON.stringify(storage))
+    }
+  }
+  return {
+    setCache
+  }
+}
+
+export default defineComponent({
+  components: {
+    OpenWindow,
+    TableSearch,
+    SupplierSpecialAttributes,
+    SupplierLibrary,
+    StandardPriceComparison
+  },
+  props: {
+    FormData: {
+      type: Object,
+      default: {
+        GroupId: '',
+        Ids: []
+      }
+    },
+    EnquiryDataId: {
+      // 询价单id
+      type: Number,
+      default: 0
+    }
+  },
+  emits: ['closeWindow'],
+  // input框自动获取焦点的指令
+  directives: {
+    focus: {
+      mounted(el: any) {
+        el.children[0].children[0].focus()
+      }
+    }
+  },
+  setup(props, context: SetupContext) {
+    // 筛选数据
+    const form = reactive({
+      GroupId: 0,
+      Ids: []
+    })
+    
+    // 页面样式
+    const boxStyle = reactive({
+      boxWidth: 'w-1500',
+      boxHeight: 'h-800'
+    })
+
+    const data = <any>reactive({
+      // 选中的比价列表
+      parityRatioList: [],
+      selectDetails: [],
+      Product: [], //产品
+      priceComparison: false,
+      parameter: true,
+    })
+
+    //#region 修改金额，存入缓存
+    const changePrice = () => {
+      setIsSet(true)
+    }
+    //#endregion
+
+    //#region  数据缓存功能
+    const isSet = ref(false)// 是否有过修改
+    const countDown = ref() // 倒计时
+    const storeInfo = <any>reactive({
+      storage: {},
+      changeList: {},
+      changeName: ''
+    })
+    // 是否恢复
+    const isRestoreShow = ref(false)
+    // 修改修改状态
+    const setIsSet = (type: boolean) => {
+      isSet.value = type
+    }
+    // 清除定时器
+    const cleanCountDown = () => {
+      clearTimeout(countDown.value)
+    }
+    // 读取缓存
+    const getStore = () => {
+      let AccounterBatchList = <any>localStorage.getItem('AccounterBatchList') || ''
+      storeInfo.storage = AccounterBatchList ? JSON.parse(AccounterBatchList) : ''
+      if (storeInfo.storage != '') {
+        // 查询缓存中是否存在相同分组id或产品id
+        for (let i in storeInfo.storage) {
+          if (i == props.FormData.GroupId || i == props.FormData.Ids) {
+            storeInfo.changeName = i
+            storeInfo.changeList = storeInfo.storage[i]
+            break
+          }
+        }
+      }
+      if (storeInfo.changeList.Product) {
+        isRestoreShow.value = true
+        countDown.value = setTimeout(() => {
+          isRestoreShow.value = false
+        }, 3000)
+      }
+    }
+    // 回显缓存数据
+    const showStore = () => {
+      data.Product = storeInfo.changeList.Product
+      cleanOneStore()
+    }
+    // 清空当条缓存数据
+    const cleanOneStore = () => {
+      delete storeInfo.storage[storeInfo.changeName]
+      if (storeInfo.storage != '') {
+        localStorage.setItem('AccounterBatchList', JSON.stringify(storeInfo.storage))
+      } else {
+        localStorage.setItem('AccounterBatchList', '')
+      }
+      isRestoreShow.value = false
+      cleanCountDown()
+    }
+    //#endregion
+
+    //#region 供应商操作
+    // 添加供应商 val：选择供应商列表
+    const supplierLibrarySubmit = (val: any) => {
+      data.Product.forEach((item:any) => {
+        if(!item.Supplier)
+        item.Supplier=[]
+        val.forEach((row: any, i: number) => {
+          let tempRow = <any>{  }
+          tempRow.User = { Name: row.MainContact, MobilePhone: row.MobilePhone }
+          tempRow.Price = { Price: 0 }
+          tempRow.Supplierinfo = { Id: row.Id, Abbreviation: row.Abbreviation }
+          // 供应商去重
+          if(item.Supplier.findIndex((x:any) => x.Supplierinfo.Id == row.Id) == -1){
+            // 最多5个供应商
+            if(item.Supplier.length < 5){
+              item.Supplier.push(tempRow)
+            }
+          }
+        })
+      })
+    }
+
+    // 删除供应商
+    const deleteLibrarySubmit = (val: any, idx: number) => {
+      data.Product.forEach((item:any,index:any) => {
+        data.Product[index].Supplier.splice(idx, 1)
+      })
+      ElMessage.success('删除成功')
+    }
+    //#endregion
+
+    // 监听页面关闭
+    const closeWindow = (type: string) => {
+      // 将产品列表缓存起来s
+      cacheMessage().setCache(props, data, isSet.value)
+      context.emit('closeWindow', type)
+    }
+    // 提交比价
+    const submit = () => {
+      if (data.parityRatioList.length <= 0) {
+        ElMessage({
+          message: '请勾选至少一条产品',
+          type: 'warning'
+        })
+        return false
+      }
+
+      let ProductInfo = <any>data.parityRatioList.map((item: any) => {
+        let SupplierPrices = <any>[]
+        item.Supplier.forEach((itm: any) => {
+          let Price = <number>itm.Price ? itm.Price.Price : 0
+          let SupplierId = <any>itm.Supplierinfo.Id
+          SupplierPrices.push({ Price, SupplierId })
+        })
+
+        return {
+          ProductId: item.Product ? item.Product.Id : '',
+          EnquiryDataId: props.EnquiryDataId || 0,
+          Group: item.Product ? item.Product.SupplierGroup : '',
+          SupplierPrices: SupplierPrices
+        }
+      })
+
+      PostInsertEditProductPriceSave(ProductInfo).then((res) => {
+        if (res.code == 1) {
+          ElMessage.success(res.message)
+          context.emit('closeWindow', 'submit')
+        } else {
+          ElMessage.error(res.message)
+        }
+      })
+    }
+
+    //复制文本
+    const copyText = () => {
+      let text = <any>''
+      data.Product.forEach((item: any, i: any) => {
+        text = text + `${item.Product.SystemName} ${item.Product.SystemModel} ${item.Product.SystemSpecification}\n【二级】【${item.Product.Materials}，380V普通开关型】【压力：${item.Product.Pressure}】【材质：${item.Product.Materials}】${i == data.Product.length ? '' : '\n'}`
+      })
+      copyDomText(text)
+    }
+
+    //#region 供应商特殊属性
+    const supplierSpecialAttributesOpen = (data: any) => {
+      let supplierSpecialAttributesOpenData: any = reactive({
+        visible: false,
+        formData: {}
+      })
+
+      //打开弹窗
+      const openWindowSupplierSpecialAttributes = (val: any) => {
+        supplierSpecialAttributesOpenData.visible = true
+      }
+
+      //关闭弹窗
+      const closeWindowSupplierSpecialAttributes = (type: string) => {
+        supplierSpecialAttributesOpenData.visible = false
+      }
+      return {
+        supplierSpecialAttributesOpenData,
+        openWindowSupplierSpecialAttributes,
+        closeWindowSupplierSpecialAttributes
+      }
+    }
+    //#endregion
+    
+    //获取供应商
+    const getSupplierList = computed(()=>{
+      let _supplierList=<any>[]
+      data.Product.forEach((item: any, index:any)=> {
+        // 解决返回值中Price对象为null的情况
+        item.Supplier.forEach((e: any) => {
+          if(index==0){
+            _supplierList.push(e)
+          }
+        })
+      })
+      return _supplierList
+    })
+
+    //获取数据
+    const getData = () => {
+      renderTableList(form, data)
+    }
+    onMounted(() => {
+      form.GroupId = props.FormData.GroupId
+
+      if (props.FormData.Ids.length > 0) {
+        form.Ids = props.FormData.Ids
+      }
+      if (form.GroupId != 0 || form.Ids.length > 0) {
+        renderTableList(form, data)
+        // 判断是否有缓存
+        getStore()
+      }
+    })
+
+    return {
+      closeWindow,
+      boxStyle,
+      data,
+      form,
+      isSet,
+      submit,
+      deleteLibrarySubmit,
+      changePrice,
+      countDown,
+      cleanCountDown,
+      storeInfo,
+      isRestoreShow,
+      getStore,
+      showStore,
+      cleanOneStore,
+      supplierLibrarySubmit,
+      setIsSet,
+      copyDomText,
+      copyText,
+      ...tableRender(data),
+      ...supplierSpecialAttributesOpen({ data }),
+      ...supplierLibraryOpen(form, data, getData),
+      ...cacheMessage(),
+      getSupplierList
+    }
+  }
+})
+</script>
+
+<style lang="postcss" scoped>
+.money-input {
+  margin: 0 auto;
+  :deep(.el-input__inner) {
+    text-align: center;
+  }
+  :deep(.el-input__wrapper.is-focus) {
+    box-shadow: 0;
+  }
+  .money-line {
+    top: 38px;
+  }
+  :deep(.el-input__inner::-webkit-inner-spin-button) {
+    -webkit-appearance: none;
+  }
+  :deep(.el-input__inner::-webkit-outer-spin-button) {
+    -webkit-appearance: none;
+  }
+}
+</style>

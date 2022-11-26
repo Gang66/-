@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'Share Tech Mono';
+    font-style: normal;
+    font-weight: 400;
+    src: url(J7aHnp1uDWRBEqV98dVQztYldFcLowEA.ttf) format('truetype');
+}
+
+.font-family-share-tech-mono {
+    font-family: "Share Tech Mono", monospace;
+}

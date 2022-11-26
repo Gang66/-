@@ -1,0 +1,314 @@
+<template>
+  <OpenWindow :boxStyle="boxStyle" :isShow="true" @closeWindow="closeWindow('close')">
+    <!-- #region -->
+    <div class="p-4">
+      <div class="clearfix">
+        <div class="float-left">
+          <div class="float-left mr-2 pt-1">
+            <el-input v-model="form.SupplierName" placeholder="请输入供应商名称" />
+          </div>
+          <div class="float-left mr-1 pt-1">
+            <el-input v-model="form.MainProduct" placeholder="请输入主营产品" />
+          </div>
+          <div class="float-right pt-1 ml-2">
+            <el-button type="primary" @click="searchEvent"> <i class="iconfont icon-huntfor mr-2"></i> 查询</el-button>
+          </div>
+        </div>
+        <div class="float-right mt-1">
+          <el-button type="primary" @click="openWindowCreateSupplier()"> <i class="iconfont icon-chuangjian mr-2"></i> 新增供应商</el-button>
+        </div>
+      </div>
+      <!-- #region  表格-->
+      <div class="mt-1">
+        <table-search :current-page="form.page" :page-size="form.size" :total="form.totals" @size-change="handleSizeChange" :isAdvancedSearch="false" @current-change="handleCurrentChange">
+          <div class="bf-table-content">
+            <el-table :data="data.tableData" stripe @selection-change="handleSelectionChange" ref="multipleTableRef">
+              <el-table-column type="selection" width="30" align="center" />
+              <el-table-column type="index" label="序号" width="54" align="center" />
+              <el-table-column prop="Name" label="供应商名称" min-width="190" show-overflow-tooltip>
+                <template #default="scope">
+                  <div class="inline-block">
+                    {{ scope.row.CompanyName }}
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column prop="WorkAge" label="简写" align="center" min-width="100">
+                <template #default="scope">
+                  {{ scope.row.Abbreviation }}
+                </template>
+              </el-table-column>
+              <el-table-column prop="DepartName" label="主营类别" align="center">
+                <template #default="scope">
+                  <span v-if="scope.row.MainCategory == 'A'">手阀</span>
+                  <span v-if="scope.row.MainCategory == 'B'">控制阀</span>
+                  <span v-if="scope.row.MainCategory == 'C'">配件</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="PostName" label="联系人" align="center">
+                <template #default="scope">{{ scope.row.MainContact || '-' }}</template>
+              </el-table-column>
+              <el-table-column prop="PostName" label="手机号" align="center" min-width="95">
+                <template #default="scope">
+                  <span>{{ scope.row.MobilePhone || '-' }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="MainProduct" label="主营产品" align="center" min-width="140" show-overflow-tooltip>
+                <template #default="scope">
+                  <div class="text-left">
+                    <span>{{ scope.row.MainProduct || '-' }}</span>
+                  </div>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+        </table-search>
+      </div>
+      <!-- #endregion -->
+      <div>
+        <div class="float-left mt-4">
+          <!-- <span class="text-xs text-blue-500">恢复默认</span> -->
+        </div>
+        <div class="float-right pt-4 pb-4">
+          <el-button @click="closeWindow('close')">取消</el-button>
+          <el-button type="primary" @click="ConfirmSupplier">确认选择</el-button>
+        </div>
+      </div>
+      <!-- 新增供应商 -->
+      <CreateSupplier title="新增供应商" v-if="createSupplierOpenData.visible" :FormData="createSupplierOpenData.formData" @closeWindow="closeWindowCreateSupplier($event)" />
+    </div>
+    <!-- #endregion -->
+  </OpenWindow>
+</template>
+
+<script lang="ts">
+import OpenWindow from '/@/components/OpenWindow/index.vue'
+import { defineComponent, onMounted, reactive, ref, SetupContext } from 'vue'
+import TableSearch from '/@/components/TableSearch/index.vue'
+import { parseTime } from '/@/utils/tools'
+import { ElMessage, TabsPaneContext } from 'element-plus'
+import CreateSupplier from '../../SupplierManagement/_Components/CreateSupplier.vue'
+import { createSupplierOpen } from '/@/assets/ts/techOpenWindow'
+import { GetSupplierPage, PostInsertEditProductPriceSave } from '/@/api/tech/Supplier'
+
+// 列表数据请求
+const renderTableList = async (form: any, data: any) => {
+  await GetSupplierPage(form)
+    .then((res) => {
+      if (res.code == 1) {
+        data.tableData = res.data.records
+        form.totals = res.data.totals
+      } else {
+        ElMessage.error(res.message)
+      }
+    })
+    .catch((e) => {
+      console.log(`GetPageList${e}`)
+    })
+}
+// 筛选
+const tableRender = (form: any, data: any) => {
+  renderTableList(form, data)
+  const getStatus = (val: string) => {
+    var title = ''
+    if (data.Suggestion.length > 0) {
+      data.Suggestion.forEach((element: any) => {
+        if (val == element.DicKey) {
+          title = element.DicValue
+        }
+      })
+    }
+    return title
+  }
+  // 时间格式转换
+  const parseTimeEvent = (val: any) => {
+    return parseTime(val, '{y}-{m}-{d} {h}:{i}:{s}')
+  }
+  const handleSizeChange = (v: number) => (form.size = v) && renderTableList(form, data)
+  const handleCurrentChange = (v: number) => (form.page = v) && renderTableList(form, data)
+  // const indexMethod = (index: number) => (form.page - 1) * form.size + index + 1
+  const searchEvent = () => {
+    form.page = 1
+    renderTableList(form, data)
+  }
+
+  // table选择监听
+  const handleSelectionChange = (val: any) => {
+    data.selectDetails = val
+    if (val.length !== 1) {
+      data.single = true
+    } else {
+      data.single = false
+    }
+  }
+  return {
+    searchEvent,
+    getStatus,
+    handleSizeChange,
+    handleCurrentChange,
+    handleSelectionChange,
+    parseTimeEvent
+  }
+}
+
+export default defineComponent({
+  components: {
+    OpenWindow,
+    TableSearch,
+    CreateSupplier
+  },
+  props: {
+    FormData: {
+      type: Object,
+      default: {}
+    }
+  },
+  emits: ['closeWindow', 'supplierLibrarySubmit'],
+  setup(props, context: SetupContext) {
+    // 监听页面关闭
+    const closeWindow = (type: string) => {
+      context.emit('closeWindow', type)
+    }
+    // 页面样式
+    const boxStyle = reactive({
+      boxWidth: 'w-1000',
+      boxHeight: ''
+    })
+    // 筛选数据
+    const form = reactive({
+      page: 1,
+      size: 10,
+<<<<<<< .mine
+      CustomerName: '',
+      zhuying: ''
+||||||| .r19058
+      CustomerName: '',
+      zhuying: '',
+=======
+      SupplierName: '',
+      MainProduct: '',
+>>>>>>> .r19309
+    })
+    const data = reactive({
+      Id: [],
+      delIds: [], //上个页面传过来的产品id
+      type: 0, //上个页面传过来的产品id
+      tableData: [],
+      selectDetails: []
+    })
+
+    // 确认选择  分配供应商
+    const ConfirmSupplier = () => {
+      if (data.selectDetails.length <= 0) {
+        ElMessage.error('请选择供应商！')
+        return
+      } else {
+        // 之前新增接口
+        if (data.type) {
+          context.emit('closeWindow', 'close')
+          context.emit('supplierLibrarySubmit', data.selectDetails)
+          ElMessage.success('添加成功')
+        } else {
+          let supplierIds = <any>[]
+          data.selectDetails.map((x: any, idx: number) => {
+            console.log(x)
+            if (idx <= 4) {
+              supplierIds.push({ SupplierId: x.Id, Price: 0 })
+            }
+          })
+          let datas: any = []
+          // for (let i in data.delIds) {
+          //   datas.push({
+          //     EnquiryDataId: data.Id,
+          //     ProductId: data.delIds[i],
+          //     Group: 'G' + Date.now().toString().substr(-6, 6),
+          //     SupplierPrices: supplierIds
+          //   })
+          // }
+          data.delIds.forEach((item: any, index: number) => {
+            datas.push({
+              EnquiryDataId: data.Id,
+              ProductId: item.Id,
+              Group: item.SupplierGroup || '',
+              SupplierPrices: supplierIds
+            })
+          })
+          PostInsertEditProductPriceSave(datas).then((res) => {
+            if (res.code == 1) {
+              ElMessage.success(res.message)
+              closeWindow('submit')
+            } else {
+              ElMessage.error(res.message)
+            }
+          })
+        }
+      }
+    }
+
+<<<<<<< .mine
+||||||| .r19058
+    // 判断供应商是否已存在
+    const disSelectable = (row: any) => {
+      if (data.type) {
+        // 判断是否有重复值
+        let _index = <any>data.SupplierList.findIndex((itm: any) => itm.Supplierinfo.Id == row.Id)
+        return _index == -1 ? true : false
+      } else {
+        return true
+      }
+    }
+
+=======
+    // 判断供应商是否已存在
+    const disSelectable = (row: any) => {
+      // if (data.type) {
+        // 判断是否有重复值
+        let _index = <any>data.SupplierList.findIndex((itm: any) => itm.Supplierinfo.Id == row.Id)
+        return _index == -1 ? true : false
+      // } else {
+      //   return true
+      // }
+    }
+
+>>>>>>> .r19309
+    onMounted(() => {
+      data.delIds = props.FormData.delIds
+      data.type = props.FormData.type
+      if(data.type == 0) {
+        let _SupplierList = <any>[]
+        if(data.ProductList.length > 0) {
+          data.ProductList.forEach((item:any) => {
+            if(item.SupplierPriceList.length > 0){
+              item.SupplierPriceList.forEach((i:any) => {
+                _SupplierList.push({Supplierinfo:{Id: i.SupplierId}})
+              })
+            }
+            if(item.children && item.children.length > 0){
+              item.children.forEach((row:any) => {
+                if(row.SupplierPriceList.length > 0){
+                  row.SupplierPriceList.forEach((i:any) => {
+                    _SupplierList.push({Supplierinfo:{Id: i.SupplierId}})
+                  })
+                }
+              })
+            }
+          })
+        }
+        data.SupplierList = _SupplierList
+        console.log(data.SupplierList)
+      }
+      data.Id = props.FormData.Id
+    })
+    return {
+      closeWindow,
+      boxStyle,
+      data,
+      form,
+      ...tableRender(form, data),
+      ...createSupplierOpen(form, data, renderTableList),
+      ConfirmSupplier
+    }
+  }
+})
+</script>
+
+<style lang="postcss" scoped></style>

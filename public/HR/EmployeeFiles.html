@@ -1,0 +1,167 @@
+<div class="EmployeeFiles" style="position: relative;">
+  <div>
+    <div class="bf-table-style p-8" style="padding-top: 0">
+      <div class="text-2xl text-center  mb-0">员工档案表</div>
+      <div class="text-sm mb-1 text-right mceNonEditable">编号：{{StaffNo}}</div>
+      <div class=" border-dashed border-2 border-gray-500 flex justify-evenly p-2 mb-2 overflow-hidden " style="height: 160px;max-height: 160px;">
+        <img src="{{IdCardFrontFilePath}}" alt="" class="object-contain w-52 " style="max-width: 100%;max-height: 100%;margin: auto;transform: scale(1);">
+        <img src="{{IdCardBackFilePath}}" alt="" class="object-contain w-52"  style="max-width: 100%;max-height: 100%;margin: auto;transform: scale(1);">
+      </div>
+      <table cellspacing="0" class="w-full">
+        <tbody>
+          <tr>
+            <td class="bg-gray-100" align="center" width="19%">姓名</td>
+            <td class="mceNonEditable" align="center" width="17%">{{Name}}</td>
+            <td class="bg-gray-100" align="center" width="16%">性别</td>
+            <td class="mceNonEditable" align="center" width="16%">{{Sex}}</td>
+            <td class="bg-gray-100" align="center" width="16%">民族</td>
+            <td class="mceNonEditable" align="center" width="16%">{{Nationality}}</td>
+          </tr>
+          <tr>
+            <td align="center" class="bg-gray-100">籍贯</td>
+            <td align="center" class="mceNonEditable">{{NativePlace}}</td>
+            <td align="center" class="bg-gray-100">年龄</td>
+            <td align="center" class="mceNonEditable">{{Age}}</td>
+            <td align="center" class="bg-gray-100">出生日期</td>
+            <td align="center" class="mceNonEditable">{{Birth}}</td>
+          </tr>
+          <tr>
+            <td align="center" class="bg-gray-100">入职日期</td>
+            <td align="center" class="mceNonEditable">{{ComeDate}}</td>
+            <td align="center" class="bg-gray-100">居住范围</td>
+            <td align="center" class="mceNonEditable">{{LiveArea}}</td>
+            <td align="center" class="bg-gray-100">社保情况</td>
+            <td align="center" class="mceNonEditable">{{SocialSecurity}}</td>
+          </tr>
+          <tr>
+            <td align="center" class="bg-gray-100">身份证号</td>
+            <td align="center" colspan="2" class="mceNonEditable">{{IdCard}}</td>
+            <td align="center" class="bg-gray-100">发证机关</td>
+            <td align="center" colspan="2" class="mceNonEditable">{{IdCardOffice}}</td>
+          </tr>
+          <tr>
+            <td align="center" class="bg-gray-100">有效期限</td>
+            <td align="center" colspan="2" class="mceNonEditable">{{IdCardterm}}</td>
+            <td align="center" class="bg-gray-100">家庭住址</td>
+            <td align="center" colspan="2" class="mceNonEditable">{{HomeAddress}}</td>
+          </tr>
+          <tr>
+            <td align="center" class="bg-gray-100">手机号码</td>
+            <td align="center" class="mceNonEditable">{{PhoneNumber}}</td>
+            <td align="center" class="bg-gray-100">微信号码</td>
+            <td align="center" class="mceNonEditable">{{VXNumber}}</td>
+            <td align="center" class="bg-gray-100">电子邮箱</td>
+            <td align="center" class="mceNonEditable">{{Email}}</td>
+          </tr>
+          <tr>
+            <td align="center" class="bg-gray-100">银行卡号</td>
+            <td align="center" colspan="2" class="mceNonEditable">{{BankCard}}</td>
+            <td align="center" class="bg-gray-100">开户行名称</td>
+            <td align="center" colspan="2" class="mceNonEditable">{{OpeningBank}}</td>
+          </tr>
+          <tr>
+            <td align="center" class="bg-gray-100">驾照情况</td>
+            <td align="center" class="mceNonEditable">{{DrivingLicense}}</td>
+            <td align="center" class="bg-gray-100">政治面貌</td>
+            <td align="center" class="mceNonEditable">{{PoliticalOutlook}}</td>
+            <td align="center" class="bg-gray-100">QQ号码</td>
+            <td align="center" class="mceNonEditable">{{QQNumber}}</td>
+          </tr>
+          <tr>
+            <td align="center" class="bg-gray-100">失信记录</td>
+            <td align="center">{{DishonestyRecord}}</td>
+            <td align="center" class="bg-gray-100">劳务纠纷</td>
+            <td align="center">{{LaborDispute}}</td>
+            <td align="center" class="bg-gray-100">犯罪记录</td>
+            <td align="center">{{CriminalRecord}}</td>
+          </tr>
+          <tr>
+            <td align="center" class="bg-gray-100">法律纠纷</td>
+            <td align="center" class="mceNonEditable">{{LegalDisputes}}</td>
+            <td align="center" class="bg-gray-100">最高学历</td>
+            <td align="center" class="mceNonEditable">{{Education}}</td>
+            <td align="center" class="bg-gray-100">毕业方式</td>
+            <td align="center" class="mceNonEditable">{{Graduation}}</td>
+          </tr>
+          <tr>
+            <td align="center" class="bg-gray-100">毕业时间</td>
+            <td align="center" class="mceNonEditable">{{GraduationDate}}</td>
+            <td align="center" class="bg-gray-100">毕业院校</td>
+            <td align="center" class="mceNonEditable">{{Colleges}}</td>
+            <td align="center" class="bg-gray-100">所学专业</td>
+            <td align="center" class="mceNonEditable">{{Professional}}</td>
+          </tr>
+          <tr>
+            <td align="center" class="bg-gray-100">关系</td>
+            <td align="center" class="bg-gray-100">姓名</td>
+            <td align="center" colspan="2" class="bg-gray-100">电话</td>
+            <td align="center" colspan="2" class="bg-gray-100">职业</td>
+          </tr>
+          <tr>
+            <td align="center" class="mceNonEditable">{{item.FamilyRelat}}</td>
+            <td align="center" class="mceNonEditable">{{item.Name}}</td>
+            <td align="center" colspan="2" class="mceNonEditable">{{item.PhoneNumber}}</td>
+            <td align="center" colspan="2" class="mceNonEditable">{{item.Profession}}</td>
+          </tr>
+          <tr>
+            <td align="center" class="mceNonEditable">{{itemTwo.FamilyRelat}}</td>
+            <td align="center" class="mceNonEditable">{{itemTwo.Name}}</td>
+            <td align="center" colspan="2" class="mceNonEditable">{{itemTwo.PhoneNumber}}</td>
+            <td align="center" colspan="2" class="mceNonEditable">{{itemTwo.Profession}}</td>
+          </tr>
+          <tr>
+            <td align="center" class="bg-gray-100">紧急联系人</td>
+            <td align="center" class="mceNonEditable">{{EmergencyName}}</td>
+            <td align="center" class="bg-gray-100">关系</td>
+            <td align="center" class="mceNonEditable">{{EmergencyRelation}}</td>
+            <td align="center" class="bg-gray-100">电话</td>
+            <td align="center" class="mceNonEditable">{{EmergencyNumber}}</td>
+          </tr>
+          <tr>
+            <td align="center" class="bg-gray-100">截止时间</td>
+            <td align="center" colspan="2" class="bg-gray-100">公司名称</td>
+            <td align="center" class="bg-gray-100">离职原因</td>
+            <td align="center" colspan="2" class="bg-gray-100">证明人/电话</td>
+          </tr>
+          <tr>
+            <td align="center" class="mceNonEditable">{{InductionBeginDate}}-{{InductionEndDate}}</td>
+            <td align="center" colspan="2" class="mceNonEditable">{{CompanyName}}</td>
+            <td align="center" class="mceNonEditable">{{QuitReason}}</td>
+            <td align="center" colspan="2" class="mceNonEditable">{{QuitNameorNumber}}</td>
+          </tr>
+          <tr>
+            <td align="center" class="mceNonEditable">{{InductionBeginDate-two}}-{{InductionEndDate-two}}</td>
+            <td align="center" colspan="2" class="mceNonEditable">{{CompanyName-two}}</td>
+            <td align="center" class="mceNonEditable">{{QuitReason-two}}</td>
+            <td align="center" colspan="2" class="mceNonEditable">{{QuitNameorNumber-two}}</td>
+          </tr>
+          <!-- <tr>
+            <td align="center" class="mceNonEditable">{{InductionBeginDate-three}}-{{InductionEndDate-three}}</td>
+            <td align="center" colspan="2" class="mceNonEditable">{{CompanyName-three}}</td>
+            <td align="center" class="mceNonEditable">{{QuitReason-three}}</td>
+            <td align="center" colspan="2" class="mceNonEditable">{{QuitNameorNumber-three}}</td>
+          </tr> -->
+          <tr>
+            <td align="center">声 明</td>
+            <td colspan="5" align="center">
+              <div class="pl-2 pr-2">
+                <div class="text-left pt-1">以上信息由我提供，如有虚假公司有权开除。</div>
+                <div class="flex justify-end items-end">
+                  <div class=" flex justify-end pr-2 pb-1" style="align-items: center;padding-top: 20px;">
+                    <div>签字：</div>
+                    <div class=" border-solid border-b border-current mceNonEditable" style="line-height: 0;position: relative;">
+                        　<img style="height:30px; " src="{{FilesSign}}"/>　
+                    </div>
+                  </div>
+                  <!-- <div class="" style="margin-bottom: 5px;">
+                    <img src="{{StaffUploadFileAvatar}}" alt="" style="height: 50px;width: 50px; object-fit: cover;object-position: 50% 20%;">
+                  </div> -->
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

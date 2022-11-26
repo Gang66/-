@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="19px" viewBox="0 0 18 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+    <title>编组 4备份</title>
+    <desc>Created with Sketch.</desc>
+    <g id="招聘管理" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组-4备份" transform="translate(-3.000000, -2.350345)">
+            <g id="编组-3">
+                <g id="查询备份-2" fill="#000000" fill-rule="nonzero" opacity="0">
+                    <rect id="矩形" x="0" y="0" width="24" height="24"></rect>
+                </g>
+                <circle id="椭圆形" stroke="#468BFD" fill="#468BFD" cx="12" cy="11.453431" r="5.5"></circle>
+                <line x1="15.3775719" y1="16.1834965" x2="17.252181" y2="18.546569" id="路径-6" stroke="#468BFD" stroke-linecap="round" stroke-linejoin="round"></line>
+            </g>
+            <path d="M12,7.39454978 C11.060592,7.45041704 10.2337473,7.77737915 9.51946568,8.37543611 C8.8051841,8.97349306 8.31614455,9.74830542 8.05234703,10.6998732" id="路径-7" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></path>
+        </g>
+    </g>
+</svg>

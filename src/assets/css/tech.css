@@ -1,0 +1,30 @@
+.inquiry_big_bg {
+  height: 128px;
+  background-image: url('/@/assets/img/tech/inquiry/inquiry_lin_bg.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  overflow: hidden;
+}
+.el-pagination {
+  padding-top: 18px;
+}
+
+/* 表格中  客户名称图标   */
+.customerName {
+  span {
+    vertical-align: text-top;
+  }
+  border-radius: 4px;
+  &::after {
+    position: absolute;
+    bottom: 0;
+    left: 3px;
+    right: -14px;
+    content: '';
+    width: 0;
+    height: 0;
+    border: 7px solid transparent;
+    border-bottom-color: #ffff;
+  }
+}

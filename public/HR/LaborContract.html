@@ -1,0 +1,196 @@
+<div class="EmployeeFiles" style="position: relative;">
+  <!-- <div style="position: absolute;bottom:0;right: 0px;">
+    <img src="{{StaffUploadFileAvatar}}" alt="" style="height: 50px;width: 50px; object-fit: cover;object-position: 50% 20%;">
+  </div> -->
+    <div class="bf-table-style  px-8 " style="padding-top: 60px;">
+        <div class=" text-right mceNonEditable">编号：{{StaffNo}}</div>
+        <div class="text-center text-6xl mt-40">劳动合同</div>
+        <div class=" mt-72 py-10 " style="padding:0 120px;">
+            <div>
+              <div class="flex mb-4">
+                <div>甲方（用人单位）名称：</div>
+                <span class=" inline-block border-solid border-b border-current text-left flex-1 mceNonEditable">{{ContractUnitName}}</span>
+              </div>
+              <div class="flex mb-4">
+                <div>法定代表人（主要负责人）：</div>
+                <span class=" inline-block border-solid border-b border-current text-left flex-1 mceNonEditable">{{LegalRep}}</span>
+              </div>
+              <div class="flex mb-4">
+                <div>注册地址：</div>
+                <span class=" inline-block border-solid border-b border-current text-left flex-1 mceNonEditable">{{RegAdd}}</span>
+              </div>
+            </div>
+            <div class="mt-20">
+              <div class="flex mb-4">
+                <div>乙方（劳动者）姓名 ：</div>
+                <span class=" inline-block border-solid border-b border-current text-center flex-1 mceNonEditable">{{Name}}</span>
+                <div>性别 ：</div>
+                <span class=" inline-block border-solid border-b border-current text-center flex-1 mceNonEditable">{{Sex}}</span>
+              </div>
+              <div class="flex mb-4">
+                <div>身份证号码：</div>
+                <span class=" inline-block border-solid border-b border-current text-left flex-1 mceNonEditable">{{IdCard}}</span>
+              </div>
+              <div class="flex mb-4">
+                <div>住　　址： </div>
+                <span class=" inline-block border-solid border-b border-current text-left flex-1 mceNonEditable">{{HomeAddress}}</span>
+              </div>
+            </div>
+          </div>
+    </div>
+    <div class="flex justify-end items-end" style="margin-top:62px">
+      <div class=" flex justify-end pr-2 pb-1" style="align-items: center;padding-top: 20px;">
+        <div>签字：</div>
+        <div class=" border-solid border-b border-current mceNonEditable" style="line-height: 0;position: relative;">
+            　<img style="height:30px; " src="{{ContractSign}}"/>　
+        </div>
+      </div>
+      <!-- <div class="" style="margin-bottom: 5px;">
+        <img src="{{StaffUploadFileAvatar}}" alt="" style="height: 50px;width: 50px; object-fit: cover;object-position: 50% 20%;">
+      </div> -->
+    </div>
+</div>
+<div class="bf-print-page"></div>
+<div class="EmployeeFiles" style="position: relative;">
+  <!-- <div style="position: absolute;bottom:0;right: 0px;">
+    <img src="{{StaffUploadFileAvatar}}" alt="" style="height: 50px;width: 50px; object-fit: cover;object-position: 50% 20%;">
+  </div> -->
+    <div class="bf-table-style  px-8 ">
+        <div class=" text-right mb-2 mceNonEditable">编号：{{StaffNo}}</div>
+        <div class="textIndent">根据《中华人民共和国劳动法》、《中华人民共和国劳动合同法》和现行劳动法律、法规及政策规定，为明确双方当事人权利和义务，经甲、乙双方平等自愿，协商一致，订立本劳动合同，共同遵守执行。</div>
+        <div>一、劳动合同期限</div>
+        <div class="textIndent">
+            <span >固定期限：自</span>
+            <span class="w-10 border-solid border-b border-current mceNonEditable" >　{{ContractBeginYear}}　</span>
+            <span class="">年</span>
+            <span class="w-10 border-solid border-b border-current mceNonEditable">　{{ContractBeginMonth}}　</span>
+            <span class="">月</span>
+            <span class="w-10 border-solid border-b border-current mceNonEditable">　{{ContractBeginDay}}　</span>
+            <span class="">日至</span>
+            <span class="w-10 border-solid border-b border-current mceNonEditable">　{{ContractEndYear}}　</span>
+            <span class="">年</span>
+            <span class="w-10 border-solid border-b border-current mceNonEditable">　{{ContractEndMonth}}　</span>
+            <span class="">月</span>
+            <span class="w-10 border-solid border-b border-current mceNonEditable">　{{ContractEndDay}}　</span>
+            日终止。
+        </div>
+        <div>二、工作内容及工作地点</div>
+        <div >
+            <span >（一）甲乙双方协商一致约定乙方从事</span>
+            <span class="w-10 border-solid border-b border-current mceNonEditable">　　{{PostName}}　　</span>
+            <span class="">岗位工作。经甲乙双方协商同意，可以变更工作岗位，双方签署的变更协议或者通知书作为本合同的附件。</span>
+        </div>
+        <div>（二）乙方在工作中要按照岗位职责规定的工作量完成其数量和质量指标任务。</div>
+        <div>
+            <span >（三）工作地点：</span>
+            <span class="w-10 border-solid border-b border-current mceNonEditable">　　{{WorkPlace}}　　</span>
+        </div>
+        <div>三、工作时间和休息休假</div>
+        <div class="textIndent">乙方实行定时工作制。实行定时工作制的，乙方每日工作时间不超过八小时，平均每周不超过四十四小时，甲方保证乙方每周至少休息一日。</div>
+        <div>四、劳动报酬</div>
+        <div>
+            <span>（一）甲乙双方经平等协商，确定乙方正常工作时间工资执行以下方式：甲乙双方实行月工资制。乙方月基本工资为</span>
+            <span class="w-10 border-solid border-b border-current mceNonEditable">　　{{BasePay}}　　</span>
+            <span class="">元（人民币）。</span>
+        </div>
+        <div >（二）劳动报酬支付时间及要求</div>
+        <div>1、甲方及时足额向乙方支付劳动报酬，实行月工资制的，甲方应于次月15日前以货币形式足额支付乙方上月的工资报酬，不得克扣或者无故拖欠乙方的工资。工资支付日期遇到法定节假日或者休息日的，甲方应当在节假日或者休息日最近的工作日支付。</div>
+        <div>2、甲方要严格执行劳动定额标准，不得强迫或者变相强迫乙方加班。甲方安排加班的，应当按照国家有关规定向乙方支付加班费。</div>
+        <div>3、乙方在享受法定年休假、带薪年休假、探亲假、婚假、丧假、产假等假期期间，以及依法参加社会活动期间，其工资支付按照国家有关部门的规定执行。</div>
+        <div>五、社会保险</div>
+        <div>（一）依法参加社会保险是甲乙双方的法定义务。甲方按照规定及时足额为乙方缴纳各种社会保险费，乙方应承担的个人缴费部分由甲方从乙方工资中代为扣缴。</div>
+        <div>（二）乙方享受的各项社会保险待遇按现行有关规定执行。</div>
+        <div>六、劳动保护、劳动条件、职业危害防护</div>
+        <div>（一）甲方必须建立、健全劳动安全卫生制度，严格执行国家劳动安全卫生规程和标准，对乙方进行劳动安全卫生教育，防止劳动过程中的事故，减少职业危害。</div>
+        <div>（二）甲方必须为乙方提供符合国家规定的劳动安全卫生条件和必要的劳动防护用品，如乙方从事有职业危害的作业，甲方应负责定期对其进行健康检查，并为其采取相应的职业病防护措施。</div>
+        <div>（三）甲方安排乙方从事特种作业的，必须对乙方进行专业培训，并在取得特种作业资格证书后上岗。</div>
+        <div>（四）乙方系女职工或未成年工的，甲方应按国家规定对其进行特殊劳动保护。</div>
+        <div>（五）乙方在劳动过程中必须严格遵守安全操作规程。在生产过程中对甲方管理人员违章指挥，强令冒险作业或者危及乙方人身安全的，乙方有权拒绝执行。</div>
+        <div class=" flex justify-end pr-2 pb-1" style="align-items: center;padding-right: 1.5rem;">
+          <div>签字：</div>
+          <div class=" border-solid border-b border-current mceNonEditable" style="line-height: 0;position: relative;">
+              　<img style="height:30px; " src="{{ContractSign}}"/>　
+          </div>
+        </div>
+    </div>
+</div>
+<div class="bf-print-page"></div>
+<div class="EmployeeFiles" style="position: relative;">
+  <!-- <div style="position: absolute;bottom:0;right: 0px;">
+    <img src="{{StaffUploadFileAvatar}}" alt="" style="height: 50px;width: 50px; object-fit: cover;object-position: 50% 20%;">
+  </div> -->
+    <div class="bf-table-style  px-8 pt-8">
+        <div class=" text-right mb-2">编号：{{StaffNo}}</div>
+        <div>七、保守商业秘密和竞业协议</div>
+        <div>（一）乙方必须保守甲方的商业秘密。</div>
+        <div class="textIndent">商业秘密范畴，由甲方分别有设置密码功能的系统内容和甲方目前使用的管理系统均属秘密，甲方向客户提供报价单、销售合同、采购合同、客户信息、软件代码、自动化设计图纸、设计方案、供应商信息、企业组织结构、员工信息、企业运营模式、货源情报、产销策略等技术信息和经营信息都属秘密范畴。</div>
+        <div>（二）乙方属于甲方负有保密义务和竞业限制的人员，双方约定无论工作期间还是解除或终止劳动合同后，双方按如下约定进行处理：</div>
+        <div>1、乙方的义务</div>
+        <div>1.1未经甲方同意，在职期间不得自营或者为他人经营与甲方同类行业；</div>
+        <div>1.2不论因何种原因从甲方离职，离职后两年内（不超过）的期间内不得到与甲生产或者经营同类产品、业务有竞争关系的其他用人单位工作。</div>
+        <div>1.3不论因何种原因从甲方离职，离职后两年内（不超过）的期间内不得自己生产或者经营同类产品、从事同类业务。</div>
+        <div>2、违约责任</div>
+        <div>2.1、乙方违反竞业限制约定的，除了赔偿因此给甲方带来的经济损失和甲方因调查乙方的违约行为而支付的合理费用（包括但不限于律师费、调查费、鉴定费等）还应当向甲方支付违约金，违约金的数额为乙方向甲方辞职时年工资总额（以解除或终止劳动合同前12个月的平均工资×12个月的积）的10倍。同时，乙方因违约行为所获得的收益应当还甲方。</div>
+        <div>2.2、甲方需向乙方支付每月50元的竞业限制补偿金。支付方式如下：</div>
+        <div>（1）在乙方在职期间支付，并经乙方确认签字；</div>
+        <div>（2）若乙方在职期间甲方已支付竞业限制补偿金，则乙方离职后，甲方无需再向乙方支付竞业限制补偿金；</div>
+        <div>（3）若乙方在职期间甲方已支付竞业限制补偿金，则乙方离职后先须遵守。竞业限制时间为：已支付金额÷50元/月，在此之后，若甲方判断乙方必须履行竞业限制义务，则甲方将按月向乙方支付竞业限制补偿金。</div>
+        <div>（三）乙方如违反约定披露、使用或允许他人使用甲方的商业秘密并造成甲方损失的，应当按照《中华人民共和国反不正当竞争法》的规定承担损害赔偿责任。情节严重的，应依法追究刑事责任。</div>
+        <div>八、劳动合同的变更、解除和终止</div>
+        <div>（一）经甲乙双方协商一致，劳动合同的内容可以变更，变更劳动合同应当以书面形式。</div>
+        <div>（二）劳动合同的解除</div>
+        <div>1、经劳动合同双方协商一致，劳动合同可以解除。</div>
+        <div>2、甲方按照《劳动合同法》第三十九条、第四十条、第四十一条规定可以与劳动者解除劳动合同。</div>
+        <div>3、乙方符合《劳动合同法》第四十二条规定情形的，甲方不得依据《劳动合同法》第四十条、第四十一条的规定解除合同。</div>
+        <div>4、乙方提前三十日以书面形式通知甲方，可以解除劳动合同。</div>
+        <div class=" flex justify-end pr-2 pb-1" style="align-items: center;padding-right: 1.5rem;margin-top: 23px;">
+          <div>签字：</div>
+          <div class=" border-solid border-b border-current mceNonEditable" style="line-height: 0;position: relative;">
+              　<img style="height:30px; " src="{{ContractSign}}"/>　
+          </div>
+        </div>
+    </div>
+</div>
+<div class="bf-print-page"></div>
+<div class="EmployeeFiles" style="position: relative;">
+    <div class="bf-table-style  px-8 pt-8">
+        <div class=" text-right mb-2 mceNonEditable">编号：{{StaffNo}}</div>
+        <div>5、乙方可以按照《劳动合同法》第三十八条的规定解除劳动合同。</div>
+        <div>（三）劳动合同的终止</div>
+        <div class="textIndent">
+            按照《劳动合同法》第四十四条、第四十五条的规定劳动合同终止。
+        </div>
+        <div>（四）其他</div>
+        <div>1、甲方应当在解除或者终止劳动合同同时出具解除或者终止劳动合同的证明。并在十五日内为乙方办理档案和社会保险关系转移手续。</div>
+        <div>2、甲、乙双方应当办理工作交接。甲方依照本法有关规定应当向乙方支付经济补偿的，在办结工作交接时次月15日支付。</div>
+        <div>3、因乙方属业务重要人员，未办理离职手续会造成甲方业务流失（此类流失无法计算其损失），双方同意造成损失的标准一律按乙方在职所收益（工资、提成）为计算金额，未能办理离职手续（离职申请书和离职声明），双方约定按在职时乙方所收益为惩罚性违约金支付给甲方，做为甲方的补偿金。</div>
+        <div>4、甲乙双方明确规定，除《劳动合同法》规定的严重违反公司规章制度的条款外，下列两项规章制度如有违反甲乙双方同意按严重违反公司规章制度处理。</div>
+        <div>4.1总结管理制度，日工作总结、每周工作总结、每月工作总结，认真履行公司规章制度，未能按时提交者，一个月累积5次以上者公司按严重违反公司规章制度的依法解除劳动合同。</div>
+        <div>4.2系统关停管理制度，根据公司制度的因工作量不达标或因诚信值问题、工作总结未提交产生的系统自动关停，一个月累积5次者。</div>
+        <div>九、经济补偿和赔偿金</div>
+        <div class="textIndent">甲方违反《劳动合同法》规定解除劳动合同的，应按照《劳动合同法》及有关法律、法规规定向乙方支付经济补偿金和赔偿金。</div>
+        <div>十、劳动争议处理</div>
+        <div class="textIndent">因履行本合同发生争议，可先协商解决；协商不成的，当事人应当在劳动争议申请仲裁时效期内向劳动争议仲裁委员会申请仲裁。对仲裁裁决不服的，可以自收到裁决书之日起15日内向人民法院提起诉讼。</div>
+        <div>十一、下列条款为甲乙双方依法约定的其他内容：</div>
+        <div>（1）甲乙双方同意,绩效考核http//:oa.zgbffm.com:8990/约定的进行。</div>
+        <div>（2）签定合同前乙方已经详细阅读了甲方的规章制度,并同意按照甲方的规章制度执行。</div>
+        <div>十二、特殊条款（以下约定高于上述任何一条约定，如有冲突按此条款为先）</div>
+        <div class="textIndent">乙方不论因何种原因从甲方离职，离职后两年内(不超过)的期间内不得入职山东沪工阀门制造股份有限公司、山东沪工阀门制造股份有限公司潍坊分公司、国威特种阀门(山东)有限公司、国威阀门制造有限公司及其关联公司。也不得与以上竞业单位有密切联系或提供任意服务。如有违反，一经查实，乙方除赔偿甲方约定的竞业补偿金外，还需赔偿给人才委托方北京新北法律咨询服务有限公司人才培养费50万。（甲方与北京新北法律咨询服务有限公司有人才培养合作约定，上述条款同约定条款，对此乙方属连带责任人，特此告知。</div>
+        <div class="flex mt-10">
+            <div class="w-1/2">
+              <div class="textIndent">甲方(盖章)</div>
+              <div class="textIndent mt-10 mceNonEditable">年　　　月　　　日</div>
+            </div>
+            <div class="w-1/2">
+              <div class=" flex" style="position: relative;">
+                <div>乙方(签字)：</div>
+                <div class=" mceNonEditable" style="line-height: 0;margin: auto 0;position: absolute;left: 92px;">　<img style="height:30px;max-width: 90px;" src="{{ContractSign}}" />　</div>
+                <div style="position: absolute;bottom: -8px;right: 100px;">
+                  <img src="{{StaffUploadFileAvatar}}" alt="" style="height: 50px;width: 50px; object-fit: cover;object-position: 50% 20%;" />
+                </div>
+              </div>
+                <div class="textIndent mt-10 mceNonEditable">{{ContractSignYear}}年　{{ContractSignMonth}}　月　{{ContractSignDay}}　日</div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,650 @@
+/* 滚动条 */
+.scrollbar::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.scrollbar::-webkit-scrollbar-track {
+  border-radius: 100vh;
+  background: #f7f4ed;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background: var(--el-color-primary);
+  border-radius: 100vh;
+  border: 3px solid #f6f7ed;
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #c0a0b9;
+}
+
+/* 最大宽度限制 */
+@media screen and (min-width: 106rem) {
+  /*   .bf-content {
+        width: 90rem;
+        margin: 0 auto;
+    } */
+  .bf-layout-content {
+    width: 90rem;
+    margin: 0 auto;
+    padding-top: 1rem;
+  }
+  .bf-Customer {
+    //width: 120rem;
+    margin: 0 auto;
+  }
+}
+
+/* 弹窗最大宽度限制 */
+@media screen and (max-width: 40rem) {
+  .bf-windows-content {
+    width: 80%;
+  }
+}
+
+/* 标题文本颜色 */
+.bf-title-color {
+  color: var(--el-color-primary);
+}
+
+/* 蓝色字体 */
+.bf-font-blue-color {
+  color: var(--el-color-primary) !important;
+}
+/* 绿色字体 */
+.bf-font-green-color {
+  color: var(--el-color-success) !important;
+}
+
+/*警告颜色  */
+.bf-warning-color {
+  color: var(--el-color-warning);
+}
+
+/* 错误颜色 */
+.bf-error-color {
+  color: var(--el-color-error);
+}
+
+/* 白色字体 */
+.bf-font-white-color {
+  color: var(--el-color-white);
+}
+
+/* 主要字体 主色系 */
+.bf-text-color-primary {
+  color: var(--el-text-color-primary) !important;
+}
+
+/* 副要字体 副色系 */
+.bf-text-color-regular {
+  color: var(--el-text-color-regular);
+}
+
+/* 次要字体 次色系 */
+.bf-text-color-secondary {
+  color: var(--el-text-color-secondary);
+}
+
+/* 提示字体 提示字色 */
+.bf-text-color-placeholder {
+  color: var(--el-text-color-placeholder);
+}
+
+/* 禁用字体 禁言字色 */
+.bf-text-color-disabled {
+  color: var(--el-text-color-disabled);
+}
+
+/* 浅色蓝色背景 */
+.bf-bg-color-primary-light-8 {
+  background: var(--el-color-primary-light-9);
+}
+/* 灰色背景 */
+.bf-bg-color-fill-color-light {
+  background: var(--el-fill-color-light);
+}
+
+/* 蓝色背景 */
+.bf-bg-blue-color {
+  background: var(--el-color-primary);
+}
+.salerDialog {
+  font-size: 12px;
+  .overflow-y-auto {
+    border-radius: 12px;
+  }
+  .el-textarea__inner {
+    //box-shadow: none;
+    border-radius: 4px;
+  }
+
+  .form-pt {
+    padding: 20px;
+  }
+  .form-radius {
+    border-radius: 20px;
+  }
+  text-align: left;
+  .from-title {
+    padding-bottom: 20px;
+    text-align: center;
+    font-size: 18px;
+    font-family: Source Han Sans CN;
+    font-weight: 600;
+  }
+
+  .form-top {
+    background-size: 100% 100%;
+    width: 100%;
+    height: 117px;
+  }
+  .form-bottom {
+    z-index: -1;
+    background-size: 102% 102%;
+    width: 100%;
+    height: 200px;
+  }
+  .el-card {
+    border: 1px solid #93c5fd;
+    box-shadow: none;
+    padding: 10px;
+    border-radius: 10px;
+    .el-button {
+      color: #ffffff;
+      padding: 10px;
+    }
+    .cancelbut {
+      background: #ffffff;
+      border: 1px solid #707070;
+      color: #666666;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.966);
+        border-color: rgba(2, 122, 255, 0.2);
+      }
+      &:active {
+        background-color: rgba(255, 255, 255, 0.966);
+        border-color: rgba(2, 122, 255, 0.2);
+      }
+    }
+    .textbut {
+      color: var(--el-button-text-color);
+      border: 0 solid transparent;
+      background-color: transparent;
+    }
+    .warningbut {
+      background: #e6a23c;
+      &:focus {
+        background-color: #e6a23c;
+      }
+      &:hover {
+        background-color: #e6a23c;
+        border-color: #e6a23c;
+      }
+      &:active {
+        background-color: #e6a23c;
+        border-color: #e6a23c;
+      }
+    }
+
+    .successbut {
+      background: #67c23a;
+      &:focus {
+        background-color: #67c23a;
+      }
+      &:hover {
+        background-color: #67c23a;
+        border-color: #67c23a;
+      }
+      &:active {
+        background-color: #67c23a;
+        border-color: #67c23a;
+      }
+    }
+
+    .dangerbut {
+      background: #f56c6c;
+      &:focus {
+        background-color: #f56c6c;
+      }
+      &:hover {
+        background-color: #f56c6c;
+        border-color: #f56c6c;
+      }
+      &:active {
+        background-color: #f56c6c;
+        border-color: #f56c6c;
+      }
+    }
+
+    .el-card__header {
+      padding: 0px;
+      border-bottom: 1px dashed #969899;
+      .card-header {
+        display: flex;
+        .header-left {
+          text-align: center;
+          width: 80px;
+          border-radius: 4px 0px 0px 0px;
+          line-height: 30px;
+          height: 30px;
+          font-size: 14px;
+        }
+        .header-right {
+          width: 100%;
+          height: 30px;
+        }
+      }
+    }
+
+    .el-card__body {
+      padding: 1rem;
+      .el-form-item {
+        .el-form-item__label:before {
+          content: '';
+          margin-right: 0px;
+        }
+      }
+      .el-form-item__error {
+        color: var(--el-color-danger);
+        font-size: 12px;
+        line-height: 1;
+        padding-top: 2px;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        display: none;
+      }
+    }
+  }
+}
+
+/* Card卡片 */
+.bf-card {
+  .card-header-content {
+    ul {
+      &.card-header-navi {
+        display: flex;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        margin-right: 0.5rem;
+
+        li {
+          padding: 0.3rem 0.3rem 0;
+          cursor: pointer;
+          color: #666;
+
+          .curr,
+          &:hover {
+            color: var(--el-color-primary);
+          }
+        }
+      }
+    }
+  }
+
+  .bf-card-top {
+    padding: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .el-tabs {
+    .el-tabs__header {
+      .el-tabs__item {
+        padding: 0;
+      }
+    }
+  }
+
+  .el-card {
+    border: none;
+    border-radius: 0.5rem;
+
+    .el-card__header {
+      padding: 0;
+
+      .card-header-title {
+        font-size: 1rem;
+        font-weight: bold;
+        padding: 0.4rem 0.8rem;
+        color: var(--el-color-primary);
+      }
+
+      .card-header-content {
+        ul {
+          &.card-header-navi {
+            display: flex;
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            margin-right: 0.5rem;
+
+            li {
+              padding: 0.3rem 0.3rem 0;
+              font-size: 0.8rem;
+              cursor: pointer;
+              color: #666;
+
+              .curr,
+              &:hover {
+                color: var(--el-color-primary);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .el-card__body {
+      padding: 0;
+    }
+  }
+}
+
+/* table全局样式修改 */
+.bf-table-content {
+  margin-top: 0.75rem;
+  .el-table--border .el-table__cell {
+    border-right: none !important;
+  }
+  .el-table .cell {
+    text-overflow: clip;
+  }
+  .el-table thead.is-group th.el-table__cell {
+    border: none !important;
+    padding: 3px 0;
+  }
+
+  .el-table__header,
+  .el-table__fixed-header-wrapper {
+    width: 100% !important;
+
+    th.el-table__cell.is-leaf {
+      border: none;
+    }
+  }
+
+  .el-table--group,
+  .el-table--border {
+    border: none;
+  }
+
+  .el-table::before,
+  .el-table--group::after,
+  .el-table--border::after {
+    position: absolute;
+  }
+}
+@media screen and (min-width: 106rem) {
+  .bf-SchoolView-margin {
+    width: 95.4rem;
+    margin: 0 auto;
+    padding-top: 1rem;
+  }
+}
+
+/* element table 去掉多选框 */
+.bg-close-table-checkbox {
+  thead .el-table-column--selection .cell {
+    display: none;
+  }
+}
+/* 原生table公共样式 */
+.bf-table-style {
+  table {
+    border: 1px solid #333;
+    border-collapse: collapse;
+
+    th,
+    td {
+      font-family: SimSun;
+      padding: 6px 2px;
+      border-bottom: 1px solid #333;
+      border-right: 1px solid #333;
+      font-size: 14px;
+      height: 2.1rem;
+      empty-cells: show;
+    }
+  }
+}
+/* 人事统一筛选input select宽度 */
+.screen-width {
+  width: 140px !important;
+}
+/* 人事统一筛选time宽度 */
+.screen-time-width {
+  width: 260px !important;
+}
+/* 人事弹窗统一样式 */
+.bf-hr-dialog {
+  .overflow-x-hidden {
+    overflow-x: visible;
+  }
+  .bf-window-cp {
+    padding: 60px 0 0 0;
+  }
+  .el-scrollbar__wrap {
+    overflow: inherit;
+  }
+  .el-scrollbar {
+    overflow: inherit;
+  }
+  .overflow-hidden {
+    overflow: inherit;
+  }
+  .overflow-y-auto {
+    border-radius: 4px;
+  }
+  .header {
+    position: relative;
+    .header_user_bg {
+      background: url(/src/assets/img/hr/dialog_user.png) no-repeat;
+      height: 193px;
+      width: 217px;
+      position: absolute;
+      right: 50px;
+      top: -44px;
+      z-index: 10;
+      background-size: 100% 100%;
+    }
+    .header_right_bg {
+      background: url(/src/assets/img/hr/dialog_right.png) no-repeat;
+      height: 160px;
+      width: 184px;
+      position: absolute;
+      right: 0;
+      top: 0;
+      background-size: 100% 100%;
+    }
+    .text-orange-color {
+      color: #f27b33;
+    }
+    .dept_bg {
+      margin-right: 6px;
+      border: 1px solid #468bfd;
+      border-radius: 3px;
+      font-size: 12px;
+      color: #468bfd;
+      padding: 2px 6px;
+    }
+    .dept_bgTwo {
+      margin-right: 6px;
+      border: 1px solid #f27b33;
+      border-radius: 3px;
+      font-size: 12px;
+      color: #f27b33;
+      padding: 2px 6px;
+    }
+  }
+}
+/* 人事button 样式 */
+.bf-hr-button {
+  .el-button {
+    background-color: #5490ff !important;
+  }
+}
+/* 人事筛选样式 */
+.bf-screen-class {
+  .label-width {
+    width: 100px;
+  }
+  .value-width {
+    width: 200px;
+  }
+  /* 人事统一筛选time宽度 */
+  .time-width {
+    width: 300px !important;
+  }
+  .icon-width {
+    width: 18px;
+    height: 18px;
+    margin-right: 6px;
+  }
+}
+/* 表单formItem去除底部 全局去掉 el-form-item 验证距离 默认18改为0*/
+.bf-search-formItem {
+  .el-form-item {
+    margin-bottom: 0 !important;
+  }
+}
+/* 主体中间内容的样式 */
+.bf-center-content {
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+
+  /* table顶部label */
+  .bf-table-label {
+    color: var(--el-color-primary);
+    line-height: 1;
+  }
+}
+
+/* 弹窗pading公共样式 */
+
+.bf-window-padding {
+  padding: 1rem;
+  /* 全局修改el-form-item 验证距离 默认18px 修改为10px 有问题可以删除 */
+  .el-form-item {
+    margin-bottom: 10px;
+  }
+  ::deep(.el-popper) {
+    --el-popper-border-radius: var(--el-popover-border-radius, 4px);
+    position: fixed !important;
+    border-radius: var(--el-popper-border-radius);
+    padding: 5px 11px;
+    z-index: 2000;
+    font-size: 12px;
+    line-height: 20px;
+    min-width: 10px;
+    word-wrap: break-word;
+    visibility: visible;
+  }
+  /* 去除表单错误提示文字 */
+  /*  .el-form-item__error {
+    color: var(--el-color-danger);
+    font-size: 12px;
+    line-height: 1;
+    padding-top: 2px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: none;
+  } */
+}
+/* 弹窗圆角 */
+.bf-fillet {
+  .bg-white {
+    border-radius: 6px;
+  }
+}
+/*  不去掉表单错误提示文字 */
+.bf-no-error {
+  .el-form-item__error {
+    color: var(--el-color-danger);
+    font-size: 12px;
+    line-height: 1;
+    padding-top: 2px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: block !important;
+  }
+  .el-form-item {
+    display: flex;
+    --font-size: 14px;
+    margin-bottom: 13px;
+  }
+}
+/* 去掉按钮 左边距（默认 15px） 修改按钮内边距（默认 padding: 8px 15px;） */
+.bf-button-bl {
+  .el-button + .el-button {
+    margin-left: 0;
+    padding: 8px 4px !important;
+  }
+  .el-button {
+    padding: 8px 0px !important;
+  }
+}
+/* 去除input禁掉背景颜色 和禁掉鼠标样式 ***以弃用 部分代码已使用请勿删除**** */
+.bf-remove-input-disabled-bg {
+  .el-input.is-disabled .el-input__wrapper {
+    background-color: var(--el-color-white);
+  }
+  .el-textarea.is-disabled .el-textarea__inner {
+    background-color: var(--el-color-white);
+    color: var(--el-input-text-color, var(--el-text-color-regular));
+  }
+  /*  .el-input.is-disabled {
+        cursor: pointer;
+    } */
+  .el-input.is-disabled .el-input__inner {
+    color: var(--el-input-text-color, var(--el-text-color-regular));
+    /*  cursor: pointer; */
+  }
+}
+/* 打印强制分页 */
+.bf-print-page {
+  visibility: hidden;
+  page-break-after: always;
+  overflow: hidden;
+  height: 0px;
+}
+
+/* 清除浮动影响 */
+.clearfix {
+  &:after,
+  &:before {
+    display: table;
+    content: '';
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+/* 抽屉drawer */
+.bf-drawer {
+  .el-drawer__header {
+    padding: 0;
+    margin-bottom: 0;
+    position: relative;
+    .el-drawer__close-btn {
+      position: absolute;
+      top: 0.1em;
+      right: 0.1em;
+    }
+  }
+  .el-drawer__body {
+    padding: 0;
+  }
+}
